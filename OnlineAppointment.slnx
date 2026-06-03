@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Appointment.Application/Appointment.Application.csproj" />
+  <Project Path="Appointment.Domain/Appointment.Domain.csproj" />
+  <Project Path="Appointment.Infrastructure/Appointment.Infrastructure.csproj" />
+  <Project Path="Appointment.web/Appointment.web.csproj" />
+</Solution>
