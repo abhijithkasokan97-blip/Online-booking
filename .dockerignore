@@ -1,0 +1,29 @@
+# --- Source Control ---
+.git
+.gitignore
+
+# --- IDEs and Tools ---
+.vs/
+.vscode/
+*.user
+*.suo
+*.sln.docstates
+
+# --- .NET Build Output (CRITICAL) ---
+**/bin/
+**/obj/
+out/
+dist/
+
+**/publish/     
+out/           
+Infrastructure/
+
+# --- Docker Files ---
+Dockerfile
+docker-compose*
+.dockerignore
+
+# --- OS Trash ---
+.DS_Store
+Thumbs.db
