@@ -10,16 +10,12 @@ RUN dotnet restore "Appointment.web/Appointment.web.csproj" --disable-parallel
 
 COPY . .
 
-# // Build
 WORKDIR "/src/Appointment.web"
-RUN dotnet publish -c Release -o /app/out /p:BuildInParallel=false
-
-# --- RUNTIME ---
+RUN dotnet publish -c Release -o out /p:BuildInParallel=false
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
-COPY --from=build-env /app/out .
-
+COPY --from=build-env /src/Appointment.web/out .
 
 EXPOSE 8080
 ENTRYPOINT ["dotnet", "Appointment.web.dll"]

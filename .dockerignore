@@ -17,7 +17,7 @@ dist/
 
 **/publish/     
 out/           
-Infrastructure/
+/Infrastructure/
 
 # --- Docker Files ---
 Dockerfile
