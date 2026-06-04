@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0-noble AS build-env
+FROM mcr.microsoft.com/dotnet/sdk:10.0-noble AS build-env
 WORKDIR /src
 
 COPY ["Appointment.web/Appointment.web.csproj", "Appointment.web/"]
@@ -14,7 +14,7 @@ COPY . .
 WORKDIR "/src/Appointment.web"
 RUN dotnet publish -c Release -o out /p:BuildInParallel=false
 
-FROM mcr.microsoft.com/dotnet/aspnet:8.0-noble
+FROM mcr.microsoft.com/dotnet/aspnet:10.0-noble
 WORKDIR /app
 
 COPY --from=build-env /src/Appointment.web/out .
