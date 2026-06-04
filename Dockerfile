@@ -13,7 +13,7 @@ COPY . .
 WORKDIR "/src/Appointment.web"
 RUN dotnet publish -c Release -o out /p:BuildInParallel=false
 
-FROM registry.hub.docker.com/microsoft/dotnet-aspnet:8.0
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 COPY --from=build-env /src/Appointment.web/out .
 
