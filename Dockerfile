@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
+FROM registry.hub.docker.com/microsoft/dotnet-sdk:8.0 AS build-env
 WORKDIR /src
 
 COPY ["Appointment.web/Appointment.web.csproj", "Appointment.web/"]
@@ -13,7 +13,7 @@ COPY . .
 WORKDIR "/src/Appointment.web"
 RUN dotnet publish -c Release -o out /p:BuildInParallel=false
 
-FROM mcr.microsoft.com/dotnet/aspnet:8.0
+FROM registry.hub.docker.com/microsoft/dotnet-aspnet:8.0
 WORKDIR /app
 COPY --from=build-env /src/Appointment.web/out .
 
