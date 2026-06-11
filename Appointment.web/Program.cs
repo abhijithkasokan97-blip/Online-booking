@@ -4,6 +4,7 @@ using Appointment.Application;
 using Appointment.Application.Common.Interfaces;
 using Appointment.Infrastructure;
 using Appointment.Infrastructure.Persistant;
+using Appointment.web.Services;
 using Azure.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -81,6 +82,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddScoped<IApplicationDbContext>(provider =>
     provider.GetRequiredService<ApplicationDbContext>());
 
+builder.Services.AddGrpc();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

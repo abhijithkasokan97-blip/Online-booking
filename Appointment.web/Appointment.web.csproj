@@ -10,6 +10,7 @@
   <ItemGroup>
     <PackageReference Include="Azure.Extensions.AspNetCore.Configuration.Secrets" Version="1.5.1" />
     <PackageReference Include="Azure.Identity" Version="1.21.0" />
+    <PackageReference Include="Grpc.AspNetCore" Version="2.80.0" />
     <PackageReference Include="MediatR" Version="14.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
@@ -25,5 +26,7 @@
     <ProjectReference Include="..\Appointment.Application\Appointment.Application.csproj" />
     <ProjectReference Include="..\Appointment.Infrastructure\Appointment.Infrastructure.csproj" />
   </ItemGroup>
-
+  <ItemGroup>
+    <Protobuf Include="..\Appointment.Application\Protos\appointment.proto" Link="Protos\appointment.proto" GrpcServices="Server" Services="None"/>
+  </ItemGroup>
 </Project>

@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+option csharp_namespace = "OnlineAppointment.Grpc";
+
+package appointment;
+
+service AppointmentService {
+  // 1. Update or add a new RPC method that returns a list wrapper
+  rpc GetAppointmentList (AppointmentListRequest) returns (AppointmentListResponse);
+}
+
+// An empty request message (or add filters like doctor_id if needed later)
+message AppointmentListRequest {
+}
+
+// 2. Define what a single item looks like in Protobuf
+message AppointmentItem {
+  string id = 1;              // Guid will be converted to a string
+  string patient_name = 2;
+  string doctor_name = 3;
+  string appointment_time = 4;// DateTime will be converted to an ISO-8601 string
+  string reason = 5;
+}
+
+// 3. Create a wrapper message containing the collection
+message AppointmentListResponse {
+  repeated AppointmentItem appointments = 1; // 'repeated' makes this a List<AppointmentItem>
+}
