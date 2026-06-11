@@ -7,15 +7,17 @@ using System.Security.Claims;
 using Jwt = System.IdentityModel.Tokens.Jwt;
 // Keep this for the TokenHandler and SecurityToken
 using System.IdentityModel.Tokens.Jwt;
+using Microsoft.Extensions.Options;
 
 namespace Appointment.Infrastructure.Authentication;
 
 public class JwtTokenGenerator : IJwtTokenGenerator
 {
-    private readonly IConfiguration _config;
-    public JwtTokenGenerator(IConfiguration config)
+    private readonly JwtOptions  _jwtOptions;
+    
+    public JwtTokenGenerator(IOptions<JwtOptions> jwtOptions)
     {
-        _config = config;
+        _jwtOptions = jwtOptions.Value;
     }
 
     public string GenerateToken(string userId, string userName, IEnumerable<string> roles)
@@ -32,14 +34,14 @@ public class JwtTokenGenerator : IJwtTokenGenerator
             claims.Add(new Claim(ClaimTypes.Role, role));    
         }
 
-        var key =  new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+        var key =  new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOptions.Key));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
         var token = new JwtSecurityToken(
-            issuer:_config["Jwt:Issuer"],
-            audience: _config["Jwt:audience"],
+            issuer: _jwtOptions.Issuer,
+            audience: _jwtOptions.Audience,
             claims: claims,
-            expires: DateTime.UtcNow.AddMinutes(int.Parse(_config["Jwt:expiryTime"])),
+            expires: DateTime.UtcNow.AddMinutes(_jwtOptions.ExpiryTime),
             signingCredentials: creds
 
         );

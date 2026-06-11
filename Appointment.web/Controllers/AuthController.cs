@@ -1,9 +1,10 @@
-using System.ComponentModel.DataAnnotations;
 using Appointment.Application.Authentication.Commands.Login;
 using Appointment.Application.Authentication.Commands.Register;
 using Appointment.Application.Common.Model;
+using Appointment.Infrastructure.Authentication;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace Appointment.web.Controllers
 {
@@ -12,15 +13,15 @@ namespace Appointment.web.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly IConfiguration _configuration;
+        private readonly JwtOptions _jwtOptions;
 
         public AuthController(
             IMediator mediator,
-            IConfiguration configuration 
+            IOptions<JwtOptions>  jwtOption
             )
         {
             _mediator = mediator;
-            _configuration = configuration;
+            _jwtOptions = jwtOption.Value;
         }
 
         [HttpPost("register")]
@@ -43,14 +44,13 @@ namespace Appointment.web.Controllers
             if(!loginResponse.Success){
                 return Unauthorized(loginResponse.Message);
             }
-            int.TryParse(_configuration["Jwt:expiryTime"],out int expires);
 
             var cookieOptions =  new CookieOptions
             {
                 HttpOnly = true,
                 Secure = true,
                 SameSite = SameSiteMode.Strict,
-                Expires = DateTime.UtcNow.AddMinutes(expires)
+                Expires = DateTime.UtcNow.AddMinutes(_jwtOptions.ExpiryTime)
             };
             Response.Cookies.Append("X-Auth-Token", loginResponse.token, cookieOptions);
 
